@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="PlagiarismAlgorithmServicePkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <ServiceTypes>
+    <StatefulServiceType ServiceTypeName="PlagiarismAlgorithmServiceActorServiceType" HasPersistedState="true">
+      <Extensions>
+        <Extension Name="__GeneratedServiceType__" GeneratedId="88b55c9d-012c-4840-a574-d8527927101a|Persisted">
+          <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
+            <DefaultService Name="PlagiarismAlgorithmServiceActorService" />
+            <ServiceEndpoint Name="PlagiarismAlgorithmServiceActorServiceEndpoint" />
+            <ReplicatorEndpoint Name="PlagiarismAlgorithmServiceActorServiceReplicatorEndpoint" />
+            <ReplicatorConfigSection Name="PlagiarismAlgorithmServiceActorServiceReplicatorConfig" />
+            <ReplicatorSecurityConfigSection Name="PlagiarismAlgorithmServiceActorServiceReplicatorSecurityConfig" />
+            <StoreConfigSection Name="PlagiarismAlgorithmServiceActorServiceLocalStoreConfig" />
+          </GeneratedNames>
+        </Extension>
+      </Extensions>
+    </StatefulServiceType>
+  </ServiceTypes>
+  <CodePackage Name="Code" Version="1.0.0">
+    <EntryPoint>
+      <ExeHost>
+        <Program>PlagiarismAlgorithmService.exe</Program>
+      </ExeHost>
+    </EntryPoint>
+  </CodePackage>
+  <ConfigPackage Name="Config" Version="1.0.0" />
+  <Resources>
+    <Endpoints>
+      <Endpoint Name="PlagiarismAlgorithmServiceActorServiceEndpoint" />
+      <Endpoint Name="PlagiarismAlgorithmServiceActorServiceReplicatorEndpoint" />
+    </Endpoints>
+  </Resources>
+  <!-- The content will be generated during build -->
+</ServiceManifest>
