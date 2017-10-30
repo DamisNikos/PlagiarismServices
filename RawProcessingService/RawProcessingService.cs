@@ -37,16 +37,27 @@ namespace RawProcessingService
             document.profiles.Add(ProfileStopWordBuilder.GetProfileStopWord(listofStopWords, 11, canditateOrboundary.Canditate));
             document.profiles.Add(ProfileStopWordBuilder.GetProfileStopWord(listofStopWords, 8, canditateOrboundary.Boundary));
 
-   
+            using (var context = new DocumentContext())
+            {
+                context.Profiles.Add(document.profiles[0]);
 
+                foreach (StopNGram ngram in document.profiles[0].ngrams)
+                {
+                    context.StopNGrams.Add(ngram);
+                }
+                foreach (Word word in document.words)
+                {
+                    context.Word.Add(word);
+                }
+                context.Documents.Add(document);
 
-            IRawProcessing managementClient = ServiceProxy.Create<IRawProcessing>
+                context.SaveChanges();
+            }
+
+            IManagement managementClient = ServiceProxy.Create<IManagement>
                 (new Uri("fabric:/PlagiarismServices/ManagementService"), new ServicePartitionKey(1));
 
-
-            
-
-            var result = managementClient.DocumentReceivedAsync(document).Result;
+            managementClient.DocumentReceivedAsync(document.DocHash);
 
             return Task.FromResult<bool>(true);
         }

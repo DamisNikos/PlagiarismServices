@@ -84,22 +84,22 @@ namespace ManagementService
 
             }
 
-            using (var context = new DocumentContext())
-            {
-                context.Profiles.Add(document.profiles[0]);
+            //using (var context = new DocumentContext())
+            //{
+            //    context.Profiles.Add(document.profiles[0]);
 
-                foreach (StopNGram ngram in document.profiles[0].ngrams)
-                {
-                    context.StopNGrams.Add(ngram);
-                }
-                foreach (Word word in document.words)
-                {
-                    context.Word.Add(word);
-                }
-                context.Documents.Add(document);
+            //    foreach (StopNGram ngram in document.profiles[0].ngrams)
+            //    {
+            //        context.StopNGrams.Add(ngram);
+            //    }
+            //    foreach (Word word in document.words)
+            //    {
+            //        context.Word.Add(word);
+            //    }
+            //    context.Documents.Add(document);
 
-                context.SaveChanges();
-            }
+            //    context.SaveChanges();
+            //}
 
 
             using (var tx = this.StateManager.CreateTransaction())
@@ -112,6 +112,11 @@ namespace ManagementService
             }
 
             return true;
+        }
+
+        public Task<bool> DocumentReceivedAsync(string docHash)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> ExaminedDocumentsAsync(int count)

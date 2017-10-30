@@ -36,7 +36,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FrontEndService\FrontEndService.csproj" />
     <ProjectReference Include="..\ManagementService\ManagementService.csproj" />
     <ProjectReference Include="..\PlagiarismAlgorithmService\PlagiarismAlgorithmService.csproj" />
     <ProjectReference Include="..\PlagiarismUI\PlagiarismUI.csproj" />

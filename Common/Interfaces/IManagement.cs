@@ -10,5 +10,8 @@ namespace Common.Interfaces
     public interface IManagement : IService
     {
         Task<bool> ExaminedDocumentsAsync(int count);
+
+        Task<bool> DocumentReceivedAsync(string docHash);
+
     }
 }
