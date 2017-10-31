@@ -83,25 +83,6 @@ namespace ManagementService
                 }
 
             }
-
-            //using (var context = new DocumentContext())
-            //{
-            //    context.Profiles.Add(document.profiles[0]);
-
-            //    foreach (StopNGram ngram in document.profiles[0].ngrams)
-            //    {
-            //        context.StopNGrams.Add(ngram);
-            //    }
-            //    foreach (Word word in document.words)
-            //    {
-            //        context.Word.Add(word);
-            //    }
-            //    context.Documents.Add(document);
-
-            //    context.SaveChanges();
-            //}
-
-
             using (var tx = this.StateManager.CreateTransaction())
             {
                 var result = await counter.TryGetValueAsync(tx, "Counter");
@@ -114,9 +95,28 @@ namespace ManagementService
             return true;
         }
 
-        public Task<bool> DocumentReceivedAsync(string docHash)
+        public async Task<bool> DocumentReceivedAsync(string docHash)
         {
-            throw new NotImplementedException();
+            ServiceEventSource.Current.ServiceMessage(this.Context, $"Received document {docHash} at ManagementService");
+            List<Document> documentList = new List<Document>();
+            ////////////////////////////
+            var counter = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, int>>("myDictionary");
+            using (var tx = this.StateManager.CreateTransaction())
+            {
+                await counter.AddOrUpdateAsync(tx, "Counter", 0, (k, v) => 0);
+                await tx.CommitAsync();
+            }
+
+            using (var tx = this.StateManager.CreateTransaction())
+            {
+                var result = await counter.TryGetValueAsync(tx, "Counter");
+                ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
+                            result.HasValue ? result.Value.ToString() : "Value does not exist.");
+
+                await tx.CommitAsync();
+            }
+
+            return true;
         }
 
         public async Task<bool> ExaminedDocumentsAsync(int count)
