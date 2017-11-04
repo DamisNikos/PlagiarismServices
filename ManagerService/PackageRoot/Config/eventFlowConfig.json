@@ -1,0 +1,40 @@
+{
+  "inputs": [
+    {
+      "type": "EventSource",
+      "sources": [
+        { "providerName": "Microsoft-ServiceFabric-Services" },
+        { "providerName": "Microsoft-ServiceFabric-Actors" },
+        { "providerName": "MyCompany-PlagiarismServices-ManagerService" }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "type": "drop",
+      "include": "Level == Verbose"
+    }
+  ],
+  "outputs": [
+    {
+      "type": "ApplicationInsights",
+      "instrumentationKey": "e4317881-194b-45f1-b837-c37b927d42a0"
+    }
+  ],
+  "schemaVersion": "2016-08-11",
+  // "healthReporter": {
+  //   "type": "CsvHealthReporter",
+  //   "logFileFolder": ".",
+  //   "logFilePrefix": "HealthReport",
+  //   "minReportLevel": "Warning",
+  //   "throttlingPeriodMsec": "1000"
+  // },
+  // "settings": {
+  //    "pipelineBufferSize": "1000",
+  //    "maxEventBatchSize": "100",
+  //    "maxBatchDelayMsec": "500",
+  //    "maxConcurrency": "8",
+  //    "pipelineCompletionTimeoutMsec": "30000"
+  // },
+  "extensions": []
+}

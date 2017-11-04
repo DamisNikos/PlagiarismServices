@@ -3,8 +3,9 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Microsoft.Diagnostics.EventFlow.ServiceFabric;
 
-namespace ManagementService
+namespace ManagerService
 {
     internal static class Program
     {
@@ -19,14 +20,17 @@ namespace ManagementService
                 // Registering a service maps a service type name to a .NET type.
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
+                using (var diagnosticsPipeline = ServiceFabricDiagnosticPipelineFactory.CreatePipeline("MyApplication-ManagerServiceType-DiagnosticsPipeline"))
+                {
 
-                ServiceRuntime.RegisterServiceAsync("ManagementServiceType",
-                    context => new ManagementService(context)).GetAwaiter().GetResult();
+                    ServiceRuntime.RegisterServiceAsync("ManagerServiceType",
+                    context => new ManagerService(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ManagementService).Name);
+                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ManagerService).Name);
 
-                // Prevents this host process from terminating so services keep running.
-                Thread.Sleep(Timeout.Infinite);
+                    // Prevents this host process from terminating so services keep running.
+                    Thread.Sleep(Timeout.Infinite);
+                }
             }
             catch (Exception e)
             {

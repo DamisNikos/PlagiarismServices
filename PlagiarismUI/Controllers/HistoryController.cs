@@ -34,6 +34,7 @@ namespace PlagiarismUI.Controllers
             {
 
                 comparisons = context.Comparisons
+                           .Where(n=>n.ComparisonUser.Equals(User.Identity.Name))
                            .GroupBy(n => n.OriginalDocumentName)
                            .Select(f => f.OrderBy(n => n.comparisonID)
                            .FirstOrDefault()
@@ -79,7 +80,7 @@ namespace PlagiarismUI.Controllers
 
             using (var context = new ResultsContext())
             {
-                comparisons = context.Comparisons.AsNoTracking().Include(n => n.CommonPassages)
+                comparisons = context.Comparisons.AsNoTracking().Include(n => n.CommonPassages).Where(n=>n.ComparisonUser.Equals(User.Identity.Name))
                                 .Where(n => n.OriginalDocumentName.Equals(originalName)).OrderByDescending(n => n.comparisonID).ToList();
 
                 if (!String.IsNullOrEmpty(searchString))
@@ -99,7 +100,7 @@ namespace PlagiarismUI.Controllers
 
             using (var context = new ResultsContext())
             {
-                comparison = context.Comparisons.AsNoTracking().Include(n => n.CommonPassages)
+                comparison = context.Comparisons.AsNoTracking().Include(n => n.CommonPassages).Where(n=>n.ComparisonUser.Equals(User.Identity.Name))
                                 .Where(n => n.comparisonID.Equals(comparisonID)).FirstOrDefault();
 
             }

@@ -2,10 +2,10 @@
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="PlagiarismServicesType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <!--<Parameter Name="FrontEndService_InstanceCount" DefaultValue="-1" />-->
+    <Parameter Name="ManagerService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="ManagerService_PartitionCount" DefaultValue="1" />
+    <Parameter Name="ManagerService_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="PlagiarismUI_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="ManagementService_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="ManagementService_PartitionCount" DefaultValue="1" />
-    <Parameter Name="ManagementService_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="RawProcessingService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="PlagiarismAlgorithmServiceActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="PlagiarismAlgorithmServiceActorService_MinReplicaSetSize" DefaultValue="3" />
@@ -19,15 +19,15 @@
     <ConfigOverrides />
   </ServiceManifestImport>-->
   <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="ManagerServicePkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="PlagiarismUIPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="PlagiarismAlgorithmServicePkg" ServiceManifestVersion="1.0.0" />
-  </ServiceManifestImport>
-  <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="ManagementServicePkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="RawProcessingServicePkg" ServiceManifestVersion="1.0.0" />
@@ -44,15 +44,15 @@
         <SingletonPartition />
       </StatelessService>
     </Service>-->
+    <Service Name="ManagerService" ServicePackageActivationMode="ExclusiveProcess">
+      <StatefulService ServiceTypeName="ManagerServiceType" TargetReplicaSetSize="[ManagerService_TargetReplicaSetSize]" MinReplicaSetSize="[ManagerService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[ManagerService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
     <Service Name="PlagiarismUI" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="PlagiarismUIType" InstanceCount="[PlagiarismUI_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
-    </Service>
-    <Service Name="ManagementService">
-      <StatefulService ServiceTypeName="ManagementServiceType" TargetReplicaSetSize="[ManagementService_TargetReplicaSetSize]" MinReplicaSetSize="[ManagementService_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[ManagementService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
-      </StatefulService>
     </Service>
     <Service Name="RawProcessingService">
       <StatelessService ServiceTypeName="RawProcessingServiceType" InstanceCount="[RawProcessingService_InstanceCount]">

@@ -9,13 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawProcessingService", "RawProcessingService\RawProcessingService.csproj", "{DFFF485C-1F99-430F-A619-338339CF7DCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementService", "ManagementService\ManagementService.csproj", "{DA46A783-5CDE-438D-BC4E-59FAFCA7FE14}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlagiarismAlgorithmService", "PlagiarismAlgorithmService\PlagiarismAlgorithmService.csproj", "{61228CB1-0135-4FBA-B3BE-C0328C349F4C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlagiarismAlgorithmService.Interfaces", "PlagiarismAlgorithmService.Interfaces\PlagiarismAlgorithmService.Interfaces.csproj", "{384F0DA3-4AEE-4CE0-AB76-37C5334173BF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlagiarismUI", "PlagiarismUI\PlagiarismUI.csproj", "{7F7B8D9D-86EA-462A-9012-24397ECF1F3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerService", "ManagerService\ManagerService.csproj", "{0674572B-81D4-442F-B1C0-1A4F2436FFB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,12 +47,6 @@ Global
 		{DFFF485C-1F99-430F-A619-338339CF7DCD}.Release|Any CPU.ActiveCfg = Release|x64
 		{DFFF485C-1F99-430F-A619-338339CF7DCD}.Release|x64.ActiveCfg = Release|x64
 		{DFFF485C-1F99-430F-A619-338339CF7DCD}.Release|x64.Build.0 = Release|x64
-		{DA46A783-5CDE-438D-BC4E-59FAFCA7FE14}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{DA46A783-5CDE-438D-BC4E-59FAFCA7FE14}.Debug|x64.ActiveCfg = Debug|x64
-		{DA46A783-5CDE-438D-BC4E-59FAFCA7FE14}.Debug|x64.Build.0 = Debug|x64
-		{DA46A783-5CDE-438D-BC4E-59FAFCA7FE14}.Release|Any CPU.ActiveCfg = Release|x64
-		{DA46A783-5CDE-438D-BC4E-59FAFCA7FE14}.Release|x64.ActiveCfg = Release|x64
-		{DA46A783-5CDE-438D-BC4E-59FAFCA7FE14}.Release|x64.Build.0 = Release|x64
 		{61228CB1-0135-4FBA-B3BE-C0328C349F4C}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{61228CB1-0135-4FBA-B3BE-C0328C349F4C}.Debug|x64.ActiveCfg = Debug|x64
 		{61228CB1-0135-4FBA-B3BE-C0328C349F4C}.Debug|x64.Build.0 = Debug|x64
@@ -73,6 +67,12 @@ Global
 		{7F7B8D9D-86EA-462A-9012-24397ECF1F3F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F7B8D9D-86EA-462A-9012-24397ECF1F3F}.Release|x64.ActiveCfg = Release|Any CPU
 		{7F7B8D9D-86EA-462A-9012-24397ECF1F3F}.Release|x64.Build.0 = Release|Any CPU
+		{0674572B-81D4-442F-B1C0-1A4F2436FFB5}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{0674572B-81D4-442F-B1C0-1A4F2436FFB5}.Debug|x64.ActiveCfg = Debug|x64
+		{0674572B-81D4-442F-B1C0-1A4F2436FFB5}.Debug|x64.Build.0 = Debug|x64
+		{0674572B-81D4-442F-B1C0-1A4F2436FFB5}.Release|Any CPU.ActiveCfg = Release|x64
+		{0674572B-81D4-442F-B1C0-1A4F2436FFB5}.Release|x64.ActiveCfg = Release|x64
+		{0674572B-81D4-442F-B1C0-1A4F2436FFB5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

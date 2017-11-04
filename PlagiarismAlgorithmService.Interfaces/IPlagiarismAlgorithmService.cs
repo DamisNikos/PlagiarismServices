@@ -9,5 +9,8 @@ namespace PlagiarismAlgorithmService.Interfaces
     public interface IPlagiarismAlgorithmService : IActor
     {
         Task<bool> CompareDocuments(Document inputDocument, List<Document> suspiciousDocuments);
+
+        Task<bool> CompareDocumentsByHash(string inputDocumentHash, List<string> suspiciousDocumentHashes, int targetCounter);
+
     }
 }

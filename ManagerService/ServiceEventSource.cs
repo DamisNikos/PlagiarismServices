@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace ManagementService
+namespace ManagerService
 {
-    [EventSource(Name = "MyCompany-PlagiarismServices-ManagementService")]
+    [EventSource(Name = "MyCompany-PlagiarismServices-ManagerService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
