@@ -1,16 +1,12 @@
-﻿using System;
+﻿using Common.DataModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Common.DataModels;
 
 namespace PlagiarismAlgorithmService
 {
-    class ProfileIntersection
+    internal class ProfileIntersection
     {
         public static ProfileStopWord IntersectProfiles(ProfileStopWord profile1, ProfileStopWord profile2)
-        {     
+        {
             List<StopNGram> intersection = new List<StopNGram>();
 
             //foreach (StopNGram ngram in profile2.ngrams)
@@ -23,8 +19,6 @@ namespace PlagiarismAlgorithmService
             //    }
             //    ngram.stopWords = stopwordsList;
             //}
-
-
 
             int ngramLength = profile1.ngrams[0].stopWords.Count;
             for (int i = 0; i < profile1.ngrams.Count; i++)

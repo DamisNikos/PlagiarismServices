@@ -2,7 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace PlagiarismUI
 {
@@ -25,7 +24,7 @@ namespace PlagiarismUI
 
                 ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(PlagiarismUI).Name);
 
-                // Prevents this host process from terminating so services keeps running. 
+                // Prevents this host process from terminating so services keeps running.
                 Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception e)

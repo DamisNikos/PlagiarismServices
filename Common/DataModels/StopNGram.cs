@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Common.DataModels
 {
@@ -27,6 +23,7 @@ namespace Common.DataModels
 
         [ForeignKey("profileStopWord")]
         public int profileStopWordID { get; set; }
+
         [IgnoreDataMember]
         public ProfileStopWord profileStopWord { get; set; }
     }

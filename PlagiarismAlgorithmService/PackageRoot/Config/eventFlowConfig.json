@@ -16,7 +16,7 @@
     }
   ],
   "outputs": [
-   
+
     // Please update the instrumentationKey.
     {
       "type": "ApplicationInsights",

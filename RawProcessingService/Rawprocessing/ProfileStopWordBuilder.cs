@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Common.DataModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Common.DataModels;
 using System.Fabric;
+using System.Linq;
 
 namespace RawProcessingService.Rawprocessing
 {
@@ -16,7 +13,6 @@ namespace RawProcessingService.Rawprocessing
         //3.Return the stopNword presentation
         public static List<StopWord> GetStopWordPresentation(List<Word> docWords, StatelessServiceContext serviceContext)
         {
-
             List<StopWord> StopWordPresentation = new List<StopWord>();
 
             //iterate through all document's words in text presentation
@@ -34,11 +30,10 @@ namespace RawProcessingService.Rawprocessing
             return StopWordPresentation;
         }
 
-
         //Step-2
         //1.Get the stopNword presentation
         //2.Calculate the size of nGram presentation
-        //3.Create the document's profile in n-gram stopNword        
+        //3.Create the document's profile in n-gram stopNword
         public static ProfileStopWord GetProfileStopWord(List<StopWord> swPresentation, int nGramSize, canditateOrboundary type)
         {
             //calculate the size of nGram presentation

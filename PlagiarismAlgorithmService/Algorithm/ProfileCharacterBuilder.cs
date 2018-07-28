@@ -1,14 +1,11 @@
-﻿using System;
+﻿using Common.DataModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Common.DataModels;
 using System.Diagnostics;
+using System.Linq;
 
 namespace PlagiarismAlgorithmService
 {
-    class ProfileCharacterBuilder
+    internal class ProfileCharacterBuilder
     {
         public static ProfileCharacter GetProfileCharacter(List<Word> docWords, IndexedBoundary boundary, int nGramSize)
         {
@@ -42,10 +39,9 @@ namespace PlagiarismAlgorithmService
 
             ProfileCharacter profile = new ProfileCharacter() { ngrams = passageProfile };
 
-
             return profile;
-
         }
+
         public static ProfileCharacter RemoveDuplicates(ProfileCharacter profile)
         {
             List<List<char>> profileWithoutDuplicates = new List<List<char>>
@@ -76,13 +72,11 @@ namespace PlagiarismAlgorithmService
                 {
                     profileWithoutDuplicates.Add(profile.ngrams[i]);
                 }
-
             }
             ProfileCharacter newProfile = new ProfileCharacter() { ngrams = profileWithoutDuplicates };
             var DoubleValues = profile.ngrams.Except(newProfile.ngrams).ToList<List<char>>();
 
             return newProfile;
-
         }
     }
 }

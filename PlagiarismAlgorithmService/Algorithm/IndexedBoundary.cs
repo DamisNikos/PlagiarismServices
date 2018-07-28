@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PlagiarismAlgorithmService
+﻿namespace PlagiarismAlgorithmService
 {
-    class IndexedBoundary
+    internal class IndexedBoundary
     {
         public int lower { get; set; }
         public int upper { get; set; }

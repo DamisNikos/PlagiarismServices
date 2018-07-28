@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Common.DataModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Common.DataModels;
+
 namespace PlagiarismAlgorithmService
 {
-    class BoundaryConverter
+    internal class BoundaryConverter
     {
         public static List<IndexedBoundary> StopWordToWord(List<IndexedBoundary> boundaries, ProfileStopWord wordsOfDocument)
         {
@@ -22,6 +19,5 @@ namespace PlagiarismAlgorithmService
             }
             return newBoundaries;
         }
-
     }
 }

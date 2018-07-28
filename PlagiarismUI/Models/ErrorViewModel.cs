@@ -1,5 +1,3 @@
-using System;
-
 namespace PlagiarismUI.Models
 {
     public class ErrorViewModel

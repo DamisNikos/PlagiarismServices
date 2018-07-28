@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
 namespace Common.DataModels
 {
@@ -15,6 +9,7 @@ namespace Common.DataModels
         public string word { get; set; }
 
         public int stopNgramID { get; set; }
+
         [IgnoreDataMember]
         public StopNGram stopNGram { get; set; }
     }

@@ -1,6 +1,4 @@
-﻿using Common.DataModels;
-using System.Data.Entity;
-
+﻿using System.Data.Entity;
 
 namespace Common.DataModels
 {
@@ -11,12 +9,10 @@ namespace Common.DataModels
         public DbSet<StopNGram> StopNGrams { get; set; }
         public DbSet<Word> Word { get; set; }
 
-
         public DocumentContext()
-        : base("Data Source= 94.64.96.46;Initial Catalog=DocumentDatabase;Persist Security Info=True;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=True")
+        : base("Server=172.26.179.97;Initial Catalog=DocumentDatabase;Persist Security Info=False;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=3000;")
         {
             System.Data.Entity.Database.SetInitializer(new CreateDatabaseIfNotExists<DocumentContext>());
         }
-
     }
 }

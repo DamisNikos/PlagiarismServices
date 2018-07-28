@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.Diagnostics.EventFlow.ServiceFabric;
+using Microsoft.ServiceFabric.Services.Runtime;
+using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Services.Runtime;
-using Microsoft.Diagnostics.EventFlow.ServiceFabric;
 
 namespace ManagerService
 {
@@ -22,7 +21,6 @@ namespace ManagerService
                 // an instance of the class is created in this host process.
                 using (var diagnosticsPipeline = ServiceFabricDiagnosticPipelineFactory.CreatePipeline("MyApplication-ManagerServiceType-DiagnosticsPipeline"))
                 {
-
                     ServiceRuntime.RegisterServiceAsync("ManagerServiceType",
                     context => new ManagerService(context)).GetAwaiter().GetResult();
 

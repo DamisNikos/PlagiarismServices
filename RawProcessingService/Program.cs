@@ -1,10 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.Fabric;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Microsoft.Diagnostics.EventFlow.ServiceFabric;
 using Microsoft.ServiceFabric.Services.Runtime;
-using Microsoft.Diagnostics.EventFlow.ServiceFabric;
+using System;
+using System.Diagnostics;
+using System.Threading;
 
 namespace RawProcessingService
 {
@@ -20,7 +18,6 @@ namespace RawProcessingService
                 // **** Instantiate log collection via EventFlow
                 using (var diagnosticsPipeline = ServiceFabricDiagnosticPipelineFactory.CreatePipeline("MyApplication-RawProcessingServiceType-DiagnosticsPipeline"))
                 {
-
                     ServiceRuntime.RegisterServiceAsync("RawProcessingServiceType",
                     context => new RawProcessingService(context)).GetAwaiter().GetResult();
 

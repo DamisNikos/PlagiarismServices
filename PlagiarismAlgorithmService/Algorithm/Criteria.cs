@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Common.DataModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Common.DataModels;
 
 namespace PlagiarismAlgorithmService
 {
-    class Criteria
+    internal class Criteria
     {
         public static ProfileStopWord ApplyCanditateRetrievalCriterion(ProfileStopWord profile)
         {
@@ -41,7 +37,6 @@ namespace PlagiarismAlgorithmService
                         if (maxseq < currentsq) maxseq = currentsq;
                         currentsq = 0;
                     }
-
                 }
                 //if criterion (1) is satisfied add this ngram to the collection
                 if ((membersofC < ngram.stopWords.Count - 1) && (maxseq < ngram.stopWords.Count - 2))
@@ -53,7 +48,6 @@ namespace PlagiarismAlgorithmService
             profileStop.ngrams = nGramCollection;
             return profileStop;
         }
-
 
         public static ProfileStopWord ApplyMatchCriterion(ProfileStopWord profile)
         {
@@ -144,6 +138,5 @@ namespace PlagiarismAlgorithmService
             similarity = sizeOfIntersection / maxSize;
             return similarity;
         }
-
     }
 }

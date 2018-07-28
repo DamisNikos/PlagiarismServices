@@ -1,10 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using System.Fabric;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Microsoft.Diagnostics.EventFlow.ServiceFabric;
 using Microsoft.ServiceFabric.Actors.Runtime;
-using Microsoft.Diagnostics.EventFlow.ServiceFabric;
+using System;
+using System.Threading;
 
 namespace PlagiarismAlgorithmService
 {
@@ -19,7 +16,6 @@ namespace PlagiarismAlgorithmService
             {
                 using (var diagnosticsPipeline = ServiceFabricDiagnosticPipelineFactory.CreatePipeline("MyApplication-PlagiarismAlgorithmService-DiagnosticsPipeline"))
                 {
-
                     // This line registers an Actor Service to host your actor class with the Service Fabric runtime.
                     // The contents of your ServiceManifest.xml and ApplicationManifest.xml files
                     // are automatically populated when you build this project.
@@ -30,7 +26,6 @@ namespace PlagiarismAlgorithmService
 
                     Thread.Sleep(Timeout.Infinite);
                 }
-               
             }
             catch (Exception e)
             {

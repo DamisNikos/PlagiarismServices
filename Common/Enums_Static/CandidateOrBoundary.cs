@@ -7,6 +7,7 @@ namespace Common.DataModels
         Canditate,
         Boundary
     }
+
     public static class Globals
     {
         public static List<Word> top50words = new List<Word>() {
@@ -60,9 +61,5 @@ namespace Common.DataModels
               new Word() { word = "said" },
               new Word() { word = "who"}
         };
-
-
-
-
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 namespace Common.ResultsModel
 {
@@ -12,14 +7,10 @@ namespace Common.ResultsModel
         public DbSet<Comparison> Comparisons { get; set; }
         public DbSet<CommonPassage> Passages { get; set; }
 
-
-
         public ResultsContext()
-        : base("Data Source=  94.64.96.46;Initial Catalog=ResultDatabase;Persist Security Info=True;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=True")
+        : base("Server=172.26.179.97;Initial Catalog=ResultsDatabase;Persist Security Info=False;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=3000;")
         {
             System.Data.Entity.Database.SetInitializer(new CreateDatabaseIfNotExists<ResultsContext>());
         }
-
-
     }
 }

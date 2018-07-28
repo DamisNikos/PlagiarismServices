@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlagiarismAlgorithmService
 {
-    class BoundaryDetection
+    internal class BoundaryDetection
     {
         public static List<List<IndexedBoundary>> DetectInitialSet(List<int[]> M, int thetaG)
         {
@@ -17,8 +14,6 @@ namespace PlagiarismAlgorithmService
                 M1[i] = M[i][0];
                 M2[i] = M[i][1];
             }
-
-
 
             List<IndexedBoundary> initialBoundaries = new List<IndexedBoundary>();
             IndexedBoundary boundary = new IndexedBoundary() { lower = M1[0], lowerIndex = 0 };
@@ -36,7 +31,6 @@ namespace PlagiarismAlgorithmService
             boundary.upper = M1[M1.Length - 1];
             boundary.upperIndex = M1.Length - 1;
             initialBoundaries.Add(boundary);
-
 
             List<IndexedBoundary> finalBoundaries = new List<IndexedBoundary>();
             foreach (IndexedBoundary initialBoundary in initialBoundaries)
@@ -61,16 +55,13 @@ namespace PlagiarismAlgorithmService
             List<List<IndexedBoundary>> boundaries = new List<List<IndexedBoundary>>();
             foreach (IndexedBoundary indexedboundary in finalBoundaries)
             {
-
                 IndexedBoundary susp = new IndexedBoundary() { lower = M1[indexedboundary.lowerIndex], upper = M1[indexedboundary.upperIndex] };
                 IndexedBoundary original = new IndexedBoundary() { lower = M2[indexedboundary.lowerIndex], upper = M2[indexedboundary.upperIndex] };
                 List<IndexedBoundary> mList = new List<IndexedBoundary> { susp, original };
                 boundaries.Add(mList);
-
             }
 
             return boundaries;
         }
-
     }
 }

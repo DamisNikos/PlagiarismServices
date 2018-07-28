@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Fabric;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Data.Collections;
-using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Runtime;
+﻿using Common.DataModels;
 using Common.Interfaces;
-using Common.DataModels;
-using System.Data.Entity;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
-using PlagiarismAlgorithmService.Interfaces;
-using System.Net.Mail;
+using Microsoft.ServiceFabric.Data.Collections;
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
+using Microsoft.ServiceFabric.Services.Runtime;
+using PlagiarismAlgorithmService.Interfaces;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Fabric;
+using System.Linq;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace ManagerService
 {
@@ -31,9 +29,7 @@ namespace ManagerService
         {
             int targetCounter;
 
-
-
-            ServiceEventSource.Current.ServiceMessage(this.Context, $"Received document {docHash} at ManagementService");
+            ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: Received document {docHash} at ManagementService");
             List<Document> documentList = new List<Document>();
 
             var counter = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, int>>("myDictionary");
@@ -45,7 +41,6 @@ namespace ManagerService
 
             using (var documentsToCompare = new DocumentContext())
             {
-
                 int skip = 0;
                 int take = 3;
 
@@ -60,7 +55,7 @@ namespace ManagerService
                     .Skip(skip).Take(take)
                     .ToList();
 
-                ServiceEventSource.Current.ServiceMessage(this.Context, $"Sending {docHash} to algorithm service");
+                ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: Sending {docHash} to algorithm service");
 
                 ActorId actorid = ActorId.CreateRandom();
                 while (batchOfDocuments.Any())
@@ -77,10 +72,7 @@ namespace ManagerService
                                                          .Select(n => n.DocHash)
                                                          .Skip(skip).Take(take)
                                                          .ToList();
-
                 }
-
-
             }
 
             return true;
@@ -103,6 +95,8 @@ namespace ManagerService
                 var result = await counter.TryGetValueAsync(tx, "Counter");
                 if (result.Value == targetCounter)
                 {
+                    ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: Sending mail about {documentName} to {userEmail}");
+
                     MailMessage mail = new MailMessage();
                     SmtpClient SmtpServer = new SmtpClient("mail.ceid.upatras.gr");
 
@@ -121,18 +115,12 @@ namespace ManagerService
                 await tx.CommitAsync();
             }
 
-
-
-
             return true;
         }
 
-       
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
             return new[] { new ServiceReplicaListener(context => this.CreateServiceRemotingListener(context)) };
         }
-
-
     }
 }

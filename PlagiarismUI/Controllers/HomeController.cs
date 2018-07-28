@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Common.DataModels;
+using Common.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Common.DataModels;
-using System.Security.Cryptography;
-using System.IO;
-using Common.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using PlagiarismUI.Models;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace PlagiarismUI.Controllers
 {
@@ -24,6 +21,7 @@ namespace PlagiarismUI.Controllers
         {
             this.hostingEnv = env;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -34,7 +32,6 @@ namespace PlagiarismUI.Controllers
         {
             try
             {
-                
                 //Read the name and a byte array of the uploaded file
                 Document doc = new Document
                 {
@@ -49,16 +46,9 @@ namespace PlagiarismUI.Controllers
                     doc.DocUser = User.Identity.Name;
                 }
 
-
-                
-
-
                 IRawProcessing preprocessingClient = ServiceProxy.Create<IRawProcessing>
                 (new Uri("fabric:/PlagiarismServices/RawProcessingService"));
                 var result = preprocessingClient.DocumentReceivedAsync(doc);
-
-
-
 
                 ViewBag.Message = $"File uploaded \n {file.Length} bytes uploaded successfully";
             }
@@ -67,7 +57,6 @@ namespace PlagiarismUI.Controllers
                 ViewBag.Message = $"No file was given";
             }
             return View();
-
         }
 
         [Authorize]

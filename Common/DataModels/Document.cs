@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Common.DataModels
 {
@@ -18,10 +13,12 @@ namespace Common.DataModels
         [StringLength(450)]
         [Index(IsUnique = true)]
         public string DocHash { get; set; }
+
         public string DocUser { get; set; }
 
         [Required]
         public List<Word> words { get; set; }
+
         [Required]
         public List<ProfileStopWord> profiles { get; set; }
 
@@ -32,4 +29,3 @@ namespace Common.DataModels
         }
     }
 }
-

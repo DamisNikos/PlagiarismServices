@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlagiarismUI.Data;
@@ -27,7 +23,7 @@ namespace PlagiarismUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer("Server= 94.64.96.46;Database=Users;User Id=sa;Password=Ceid@5202;MultipleActiveResultSets=true"));
+                options.UseSqlServer("Server=172.26.179.97;Initial Catalog=Users;Persist Security Info=False;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=3000;"));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -42,16 +38,16 @@ namespace PlagiarismUI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            //if (env.IsDevelopment())
+            //{
+            app.UseDeveloperExceptionPage();
+            app.UseBrowserLink();
+            app.UseDatabaseErrorPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //}
 
             app.UseStaticFiles();
 

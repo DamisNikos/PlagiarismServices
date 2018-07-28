@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Common.ResultsModel
 {
@@ -17,6 +13,5 @@ namespace Common.ResultsModel
         public string SuspiciousDocumentName { get; set; }
 
         public List<CommonPassage> CommonPassages { get; set; }
-
     }
 }

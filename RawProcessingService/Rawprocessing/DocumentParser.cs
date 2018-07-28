@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Common.DataModels;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Common.DataModels;
-using System.IO;
-using Toxy;
 using System.Fabric;
+using System.IO;
+using System.Text;
+using Toxy;
 
 namespace RawProcessingService.Rawprocessing
 {
@@ -34,7 +32,7 @@ namespace RawProcessingService.Rawprocessing
             }
             catch (Exception e)
             {
-                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Exception found at GetText() : {e.Message}");     
+                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Exception found at GetText() : {e.Message}");
             }
             text = RemovePunctuation(text);
             string[] words = text.Split(default(Char[]), StringSplitOptions.RemoveEmptyEntries);
