@@ -1,16 +1,16 @@
-﻿using System.Data.Entity;
+﻿//using System.Data.Entity;
 
-namespace Common.ResultsModel
-{
-    public class ResultsContext : DbContext
-    {
-        public DbSet<Comparison> Comparisons { get; set; }
-        public DbSet<CommonPassage> Passages { get; set; }
+//namespace Common.ResultsModel
+//{
+//    public class ResultsContext : DbContext
+//    {
+//        public DbSet<Comparison> Comparisons { get; set; }
+//        public DbSet<CommonPassage> Passages { get; set; }
 
-        public ResultsContext()
-        : base("Server=172.26.190.254;Initial Catalog=ResultsDatabase;Persist Security Info=False;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=3000;")
-        {
-            System.Data.Entity.Database.SetInitializer(new CreateDatabaseIfNotExists<ResultsContext>());
-        }
-    }
-}
+//        public ResultsContext()
+//        : base("Server=188.4.221.59;Initial Catalog=Documents;Persist Security Info=False;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=3000;")
+//        {
+//            System.Data.Entity.Database.SetInitializer(new CreateDatabaseIfNotExists<ResultsContext>());
+//        }
+//    }
+//}

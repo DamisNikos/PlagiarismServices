@@ -2,7 +2,7 @@
 
 namespace Common.DataModels
 {
-    public class StopWord
+    public class OldStopWord
     {
         public int stopWordID { get; set; }
         public int index { get; set; }
@@ -11,6 +11,6 @@ namespace Common.DataModels
         public int stopNgramID { get; set; }
 
         [IgnoreDataMember]
-        public StopNGram stopNGram { get; set; }
+        public OldStopNGram stopNGram { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace ManagerService
                     .AsNoTracking()
                     .Where(n => n.DocUser.Equals(docUser))
                     .Where(n => !n.DocHash.Equals(docHash))
-                    .OrderByDescending(n => n.documentID)
+                    .OrderByDescending(n => n.DocumentID)
                     .Select(n => n.DocHash)
                     .Skip(skip).Take(take)
                     .ToList();
@@ -68,7 +68,7 @@ namespace ManagerService
                                                          .AsNoTracking()
                                                          .Where(n => n.DocUser.Equals(docUser))
                                                          .Where(n => !n.DocHash.Equals(docHash))
-                                                         .OrderByDescending(n => n.documentID)
+                                                         .OrderByDescending(n => n.DocumentID)
                                                          .Select(n => n.DocHash)
                                                          .Skip(skip).Take(take)
                                                          .ToList();

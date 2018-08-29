@@ -28,34 +28,33 @@ namespace RawProcessingService
             ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: Received document {document.DocName} at RawProcessingService");
 
             ByteArray2FileConverter.ByteArray2File(document);
-            document.words = DocumentParser.GetText(Directory.GetCurrentDirectory() + "\\" + document.DocName, this.Context);
-
-
-            //TODO JSON PARSING
-            var jsonTest =  JsonConvert.SerializeObject(document.words); 
-
+            List<string> words = DocumentParser.GetText(Directory.GetCurrentDirectory() + "\\" + document.DocName, this.Context);
             ByteArray2FileConverter.DeleteFile(document);
-            List<StopWord> listofStopWords = ProfileStopWordBuilder.GetStopWordPresentation(document.words, this.Context);
-            document.profiles.Add(ProfileStopWordBuilder.GetProfileStopWord(listofStopWords, 11, canditateOrboundary.Canditate));
-            document.profiles.Add(ProfileStopWordBuilder.GetProfileStopWord(listofStopWords, 8, canditateOrboundary.Boundary));
+
+            List<StopWord> listofStopWords = ProfileStopWordBuilder.GetStopWordPresentation(words, this.Context);
+
+            List<Profile> profiles = new List<Profile>();
+            profiles.Add(ProfileStopWordBuilder.GetProfileStopWord(listofStopWords, 11, canditateOrboundary.Canditate));
+            profiles.Add(ProfileStopWordBuilder.GetProfileStopWord(listofStopWords, 8, canditateOrboundary.Boundary));
+
+            document.words = JsonConvert.SerializeObject(words);
+            document.profiles = JsonConvert.SerializeObject(profiles);
 
             ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: {document.DocName} preprocessing completed");
 
             using (var context = new DocumentContext())
             {
-                //context.Profiles.Add(document.profiles[0]);
-
-                //foreach (StopNGram ngram in document.profiles[0].ngrams)
-                //{
-                //    context.StopNGrams.Add(ngram);
-                //}
-                //foreach (Word word in document.words)
-                //{
-                //    context.Word.Add(word);
-                //}
                 context.Documents.Add(document);
 
-                context.SaveChanges();
+                try
+                {
+                    context.SaveChanges();
+                    Console.WriteLine($"File Added");
+                }
+                catch (Exception e)
+                {
+                    ServiceEventSource.Current.ServiceMessage(this.Context, $"Error upon writing file into the the database:\n{e.InnerException}");
+                }
             }
 
             ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: {document.DocName} saved in the database");

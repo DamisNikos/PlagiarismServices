@@ -4,17 +4,17 @@ using System.Runtime.Serialization;
 
 namespace Common.DataModels
 {
-    public class ProfileStopWord
+    public class OldProfileStopWord
     {
         public int ProfileStopWordID { get; set; }
         public canditateOrboundary profileType { get; set; }
 
         [Required]
-        public List<StopNGram> ngrams { get; set; }
+        public List<OldStopNGram> ngrams { get; set; }
 
         public int documentID { get; set; }
 
         [IgnoreDataMember]
-        public Document document { get; set; }
+        public OldDocument document { get; set; }
     }
 }

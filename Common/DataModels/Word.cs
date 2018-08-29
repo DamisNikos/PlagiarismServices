@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Common.DataModels
 {
-    public class Word
+    public class OldWord
     {
         public int wordID { get; set; }
         public string word { get; set; }
@@ -12,6 +12,6 @@ namespace Common.DataModels
         public int documentID { get; set; }
 
         [IgnoreDataMember]
-        public Document document { get; set; }
+        public OldDocument document { get; set; }
     }
 }

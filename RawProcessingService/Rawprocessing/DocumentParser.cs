@@ -1,5 +1,4 @@
-﻿using Common.DataModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
@@ -10,7 +9,7 @@ namespace RawProcessingService.Rawprocessing
 {
     public class DocumentParser
     {
-        public static List<Word> GetText(string docPath, StatelessServiceContext serviceContext)
+        public static List<string> GetText(string docPath, StatelessServiceContext serviceContext)
         {
             string text = null;
             string extension = Path.GetExtension(docPath);
@@ -37,10 +36,10 @@ namespace RawProcessingService.Rawprocessing
             text = RemovePunctuation(text);
             string[] words = text.Split(default(Char[]), StringSplitOptions.RemoveEmptyEntries);
 
-            List<Word> listOfWords = new List<Word>();
+            List<string> listOfWords = new List<string>();
             foreach (string word in words)
             {
-                listOfWords.Add(new Word() { word = word });
+                listOfWords.Add(word);
             }
             return listOfWords;
         }

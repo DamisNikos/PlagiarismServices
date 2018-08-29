@@ -87,6 +87,11 @@
     <Compile Include="DataModels\StopNGram.cs" />
     <Compile Include="DataModels\StopWord.cs" />
     <Compile Include="DataModels\Word.cs" />
+    <Compile Include="DocumentDataModel\Context\DocumentContext.cs" />
+    <Compile Include="DocumentDataModel\Document.cs" />
+    <Compile Include="DocumentDataModel\DtO\Profile.cs" />
+    <Compile Include="DocumentDataModel\DtO\StopNGram.cs" />
+    <Compile Include="DocumentDataModel\DtO\StopWord.cs" />
     <Compile Include="Enums_Static\CandidateOrBoundary.cs" />
     <Compile Include="Interfaces\IManagement.cs" />
     <Compile Include="Interfaces\IRawProcessing.cs" />
@@ -95,7 +100,6 @@
     <Compile Include="ResultsModel\Comparison.cs" />
     <Compile Include="ResultsModel\ResultsContext.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <PackageReference Include="EntityFramework">
       <Version>6.1.3</Version>

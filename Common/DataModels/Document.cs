@@ -2,10 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-//TEST2??//
 namespace Common.DataModels
 {
-    public class Document
+    public class OldDocument
     {
         public string DocName { get; set; }
         public int documentID { get; set; }
@@ -18,15 +17,15 @@ namespace Common.DataModels
         public string DocUser { get; set; }
 
         [Required]
-        public List<Word> words { get; set; }
+        public List<OldWord> words { get; set; }
 
         [Required]
-        public List<ProfileStopWord> profiles { get; set; }
+        public List<OldProfileStopWord> profiles { get; set; }
 
-        public Document()
+        public OldDocument()
         {
-            profiles = new List<ProfileStopWord>();
-            words = new List<Word>();
+            profiles = new List<OldProfileStopWord>();
+            words = new List<OldWord>();
         }
     }
 }

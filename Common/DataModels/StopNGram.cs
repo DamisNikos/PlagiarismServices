@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Common.DataModels
 {
-    public class StopNGram
+    public class OldStopNGram
     {
         public int StopNgramID { get; set; }
 
@@ -13,7 +13,7 @@ namespace Common.DataModels
         public string stopWordsInString { get; set; }
 
         [NotMapped]
-        public List<StopWord> stopWords { get; set; }
+        public List<OldStopWord> stopWords { get; set; }
 
         [Required]
         public int lower { get; set; }
@@ -25,6 +25,6 @@ namespace Common.DataModels
         public int profileStopWordID { get; set; }
 
         [IgnoreDataMember]
-        public ProfileStopWord profileStopWord { get; set; }
+        public OldProfileStopWord profileStopWord { get; set; }
     }
 }

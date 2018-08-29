@@ -1,4 +1,5 @@
-﻿using Common.ResultsModel;
+﻿using Common.DataModels;
+using Common.ResultsModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,7 +30,7 @@ namespace PlagiarismUI.Controllers
             }
             ViewData["CurrentFilter"] = searchString;
 
-            using (var context = new ResultsContext())
+            using (var context = new DocumentContext())
             {
                 comparisons = context.Comparisons
                            .Where(n => n.ComparisonUser.Equals(User.Identity.Name))
@@ -75,7 +76,7 @@ namespace PlagiarismUI.Controllers
                 originalName = currentNameFilter;
             }
 
-            using (var context = new ResultsContext())
+            using (var context = new DocumentContext())
             {
                 comparisons = context.Comparisons.AsNoTracking().Include(n => n.CommonPassages).Where(n => n.ComparisonUser.Equals(User.Identity.Name))
                                 .Where(n => n.OriginalDocumentName.Equals(originalName)).OrderByDescending(n => n.comparisonID).ToList();
@@ -94,7 +95,7 @@ namespace PlagiarismUI.Controllers
         {
             Comparison comparison;
 
-            using (var context = new ResultsContext())
+            using (var context = new DocumentContext())
             {
                 comparison = context.Comparisons.AsNoTracking().Include(n => n.CommonPassages).Where(n => n.ComparisonUser.Equals(User.Identity.Name))
                                 .Where(n => n.comparisonID.Equals(comparisonID)).FirstOrDefault();

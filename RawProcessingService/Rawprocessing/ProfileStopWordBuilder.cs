@@ -11,19 +11,19 @@ namespace RawProcessingService.Rawprocessing
         //1.Get the normalized(all lowercase, no punctuation) text presentation
         //2.Create the stopNword presentation
         //3.Return the stopNword presentation
-        public static List<StopWord> GetStopWordPresentation(List<Word> docWords, StatelessServiceContext serviceContext)
+        public static List<StopWord> GetStopWordPresentation(List<string> docWords, StatelessServiceContext serviceContext)
         {
             List<StopWord> StopWordPresentation = new List<StopWord>();
 
             //iterate through all document's words in text presentation
             for (int i = 0; i < docWords.Count; i++)
             {
-                foreach (Word commonWord in Globals.top50words)
+                foreach (string commonWord in Globals.top50strings)
                 {
                     //if match is found add this word in the stopNword presentation
-                    if (docWords[i].word.Equals(commonWord.word))
+                    if (docWords[i].Equals(commonWord))
                     {
-                        StopWordPresentation.Add(new StopWord() { index = i, word = docWords[i].word });
+                        StopWordPresentation.Add(new StopWord() { index = i, word = docWords[i] });
                     }
                 }
             }
@@ -34,7 +34,7 @@ namespace RawProcessingService.Rawprocessing
         //1.Get the stopNword presentation
         //2.Calculate the size of nGram presentation
         //3.Create the document's profile in n-gram stopNword
-        public static ProfileStopWord GetProfileStopWord(List<StopWord> swPresentation, int nGramSize, canditateOrboundary type)
+        public static Profile GetProfileStopWord(List<StopWord> swPresentation, int nGramSize, canditateOrboundary type)
         {
             //calculate the size of nGram presentation
             int targetIndex = swPresentation.Count + 1 - nGramSize;
@@ -42,23 +42,29 @@ namespace RawProcessingService.Rawprocessing
             //iterate through each n-gram
             for (int i = 0; i < targetIndex; i++)
             {
-                StopNGram ngram = new StopNGram() { stopWords = new List<StopWord>(), stopWordsInString = "" };
+                StopNGram ngram = new StopNGram() { stopWordsInString = "" };
 
                 //add words to each n-gram
                 for (int j = 0; j < nGramSize; j++)
                 {
-                    ngram.stopWords.Add(swPresentation[i + j]);
+                    //calculate the first and last index (in document's words) of the ngram
+                    if (j == 0)
+                    {
+                        ngram.lower = swPresentation[i + j].index;
+                    }
+                    else if (j == nGramSize - 1)
+                    {
+                        ngram.upper = swPresentation[i + j].index;
+                    }
+
                     ngram.stopWordsInString += swPresentation[i + j].word;
                     if (j < nGramSize - 1) { ngram.stopWordsInString += ","; }
                 }
-                //calculate the first and last index (in document's words) of the ngram
-                ngram.lower = ngram.stopWords[0].index;
-                ngram.upper = ngram.stopWords[nGramSize - 1].index;
+
                 //add current n-gram to the profile
-                ngram.stopWords = ngram.stopWords.ToList();
                 docProfile.Add(ngram);
             }
-            ProfileStopWord profile = new ProfileStopWord() { profileType = type, ngrams = docProfile.ToList() };
+            Profile profile = new Profile() { profileType = type, ngrams = docProfile.ToList() };
             return profile;
         }
     }
