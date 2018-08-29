@@ -10,7 +10,7 @@ namespace Common.DataModels
         public DbSet<Word> Word { get; set; }
 
         public DocumentContext()
-        : base("Server=172.26.179.97;Initial Catalog=DocumentDatabase;Persist Security Info=False;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=3000;")
+        : base("Server=172.26.190.254;Initial Catalog=DocumentDatabase;Persist Security Info=False;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=3000;")
         {
             System.Data.Entity.Database.SetInitializer(new CreateDatabaseIfNotExists<DocumentContext>());
         }

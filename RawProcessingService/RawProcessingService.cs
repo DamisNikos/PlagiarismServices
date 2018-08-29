@@ -5,6 +5,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Newtonsoft.Json;
 using RawProcessingService.Rawprocessing;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,11 @@ namespace RawProcessingService
 
             ByteArray2FileConverter.ByteArray2File(document);
             document.words = DocumentParser.GetText(Directory.GetCurrentDirectory() + "\\" + document.DocName, this.Context);
+
+
+            //TODO JSON PARSING
+            var jsonTest =  JsonConvert.SerializeObject(document.words); 
+
             ByteArray2FileConverter.DeleteFile(document);
             List<StopWord> listofStopWords = ProfileStopWordBuilder.GetStopWordPresentation(document.words, this.Context);
             document.profiles.Add(ProfileStopWordBuilder.GetProfileStopWord(listofStopWords, 11, canditateOrboundary.Canditate));
