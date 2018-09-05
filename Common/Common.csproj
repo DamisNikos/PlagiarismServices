@@ -81,13 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModels\DocumentContext.cs" />
-    <Compile Include="DataModels\ProfileStopWord.cs" />
-    <Compile Include="DataModels\Document.cs" />
-    <Compile Include="DataModels\StopNGram.cs" />
-    <Compile Include="DataModels\StopWord.cs" />
-    <Compile Include="DataModels\Word.cs" />
-    <Compile Include="DocumentDataModel\Context\DocumentContext.cs" />
+    <Compile Include="DatabaseContext\DocumentContext.cs" />
     <Compile Include="DocumentDataModel\Document.cs" />
     <Compile Include="DocumentDataModel\DtO\Profile.cs" />
     <Compile Include="DocumentDataModel\DtO\StopNGram.cs" />
@@ -98,7 +92,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultsModel\CommonPassage.cs" />
     <Compile Include="ResultsModel\Comparison.cs" />
-    <Compile Include="ResultsModel\ResultsContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EntityFramework">

@@ -55,11 +55,11 @@ namespace ManagerService
                     .Skip(skip).Take(take)
                     .ToList();
 
-                ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: Sending {docHash} to algorithm service");
-
                 ActorId actorid = ActorId.CreateRandom();
                 while (batchOfDocuments.Any())
                 {
+                    ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: Sending {docHash} to algorithm service");
+
                     var actor = ActorProxy.Create<IPlagiarismAlgorithmService>(actorid, "fabric:/PlagiarismServices");
                     var flag = actor.CompareDocumentsByHash(docHash, batchOfDocuments, targetCounter);
 

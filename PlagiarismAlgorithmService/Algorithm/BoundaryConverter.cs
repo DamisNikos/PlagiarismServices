@@ -1,20 +1,23 @@
-﻿namespace PlagiarismAlgorithmService
+﻿using Common.DataModels;
+using System.Collections.Generic;
+
+namespace PlagiarismAlgorithmService
 {
     internal class BoundaryConverter
     {
-        //public static List<IndexedBoundary> StopWordToWord(List<IndexedBoundary> boundaries, ProfileStopWord wordsOfDocument)
-        //{
-        //    List<IndexedBoundary> newBoundaries = new List<IndexedBoundary>();
-        //    foreach (IndexedBoundary boundary in boundaries)
-        //    {
-        //        IndexedBoundary newBoundary = new IndexedBoundary()
-        //        {
-        //            lower = wordsOfDocument.ngrams[boundary.lower].lower,
-        //            upper = wordsOfDocument.ngrams[boundary.upper].upper
-        //        };
-        //        newBoundaries.Add(newBoundary);
-        //    }
-        //    return newBoundaries;
-        //}
+        public static List<IndexedBoundary> StopWordToWord(List<IndexedBoundary> boundaries, Profile wordsOfDocument)
+        {
+            List<IndexedBoundary> newBoundaries = new List<IndexedBoundary>();
+            foreach (IndexedBoundary boundary in boundaries)
+            {
+                IndexedBoundary newBoundary = new IndexedBoundary()
+                {
+                    lower = wordsOfDocument.ngrams[boundary.lower].lower,
+                    upper = wordsOfDocument.ngrams[boundary.upper].upper
+                };
+                newBoundaries.Add(newBoundary);
+            }
+            return newBoundaries;
+        }
     }
 }
