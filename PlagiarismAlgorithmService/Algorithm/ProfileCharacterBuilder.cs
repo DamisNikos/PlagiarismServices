@@ -23,7 +23,6 @@ namespace PlagiarismAlgorithmService
                     }
                 }
             }
-
             int targetIndex = allWords.Length + 1 - nGramSize;
             List<List<char>> passageProfile = new List<List<char>>();
             for (int i = 0; i < targetIndex; i++)
