@@ -238,6 +238,8 @@
     <Compile Include="Algorithm\ProfileCharacter.cs" />
     <Compile Include="Algorithm\ProfileIntersection.cs" />
     <Compile Include="Algorithm\ProfileCharacterBuilder.cs" />
+    <Compile Include="Algorithm\Steps\CandidateRetrieval.cs" />
+    <Compile Include="Algorithm\Steps\PassageDetectionStep.cs" />
     <Compile Include="Algorithm\StopWordListGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlagiarismAlgorithmService.cs" />

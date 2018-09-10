@@ -67,8 +67,8 @@ namespace PlagiarismAlgorithmService
                 Comparison comparison = new Comparison
                 {
                     ComparisonUser = inputDocument.DocUser,
-                    OriginalDocumentName = inputDocument.DocName,
-                    SuspiciousDocumentName = databaseDocument.DocName,
+                    OriginalDocumentName = databaseDocument.DocName,
+                    SuspiciousDocumentName = inputDocument.DocName,
                     CommonPassages = new List<CommonPassage>()
                 };
 
@@ -81,104 +81,80 @@ namespace PlagiarismAlgorithmService
                     StopWordListGenerator.GenerateStopWordList(profile);
                 }
 
-                //=======================++==========Step-1 Canditate Retrieval=========================================
-                //Step-1.1
-                //Get the intersected(common ngrams) profile (n = 11) of the 2 documents
-                Profile canditateIntersection = ProfileIntersection.IntersectProfiles(
-                     inputDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Canditate).Single(),
-                     databaseDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Canditate).Single());
-
-                //Step - 1.1.1
-                //Check to see if any common ngrams found
-                if (canditateIntersection.ngrams.Count != 0)
+                //=======================++==========Step-1 Candidate Retrieval=========================================
+                if (CandidateRetrieval.Retrieve(
+                    inputDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Canditate).Single(),
+                     databaseDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Canditate).Single()))
                 {
-                    //Step-1.2
-                    //Apply criterion (1) to the canditate intersection to filter out false positives
-                    Profile canditateIntersectionResults = Criteria.ApplyCanditateRetrievalCriterion(canditateIntersection);
+                    //===============++++++=============Step-2 Passage Boundary Detection========++==========================
+                    List<int[]> M = PassageDetectionStep.GetMatchedNgramSet(
+                        inputDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single(),
+                         databaseDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single());
 
-                    //Step-1.2.1
-                    //Check to see if any common ngrams found after the applying criterion(1)
-                    if (canditateIntersectionResults.ngrams.Count != 0)
+                    //Step-2.6 Apply criterion (3)
+                    List<List<IndexedBoundary>> boundaries = BoundaryDetection.DetectInitialSet(M, thetaG);
+                    //Step-2.7 Apply criterion (4)
+                    List<IndexedBoundary> boundariesInput = new List<IndexedBoundary>();
+                    List<IndexedBoundary> boundariesDatabase = new List<IndexedBoundary>();
+                    foreach (List<IndexedBoundary> mBoundary in boundaries)
                     {
-                        //===============++++++=============Step-2 Passage Boundary Detection========++==========================
+                        boundariesInput.Add(mBoundary[0]);
+                        boundariesDatabase.Add(mBoundary[1]);
+                    }
+                    //Step-2.8
+                    //Convert the indexes of the stopWords to their corresponding words
+                    //in order to retrieve the passages
+                    List<IndexedBoundary> passageBoundariesInput = BoundaryConverter.StopWordToWord(boundariesInput,
+                        inputDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single());
 
-                        //Step-2.2 REDO Step-1.1 to intersect the profiles (n = 8 )
-                        Profile boundaryIntersection = ProfileIntersection.IntersectProfiles(
-                             inputDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single(),
-                             databaseDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single());
-                        //Step-2.4
-                        //Apply criterion (2) to avoid noise of coincidental matches
-                        Profile boundaryIntersectionResults = Criteria.ApplyMatchCriterion(boundaryIntersection);
-                        //Step-2.5
-                        //Get a list M of matched Ngrams
-                        //where members of M are ordered according to the first appearance of a match in the suspicious document
-                        List<int[]> M = Criteria.MatchedNgramSet(
-                             databaseDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single(),
-                             inputDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single(),
-                             boundaryIntersectionResults);
-                        //Step-2.6 Apply criterion (3)
-                        List<List<IndexedBoundary>> boundaries = BoundaryDetection.DetectInitialSet(M, thetaG);
-                        //Step-2.7 Apply criterion (4)
-                        List<IndexedBoundary> boundariesSuspicious = new List<IndexedBoundary>();
-                        List<IndexedBoundary> boundariesOriginal = new List<IndexedBoundary>();
-                        foreach (List<IndexedBoundary> mBoundary in boundaries)
+                    List<IndexedBoundary> passageBoundariesDatabase = BoundaryConverter.StopWordToWord(boundariesDatabase,
+                        databaseDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single());
+                    //Examine each set of passages
+                    for (int i = 0; i < passageBoundariesDatabase.Count; i++)
+                    {
+                        //string resultMessage = "";
+                        string inputPassage = "";
+                        string databasePassage = "";
+                        //=================Step-3 Creating the profiles of letter ngrams=================================
+                        //Step-3.1
+                        //Get the document's profile in letters ngrams
+                        ProfileCharacter passageInput = ProfileCharacterBuilder.GetProfileCharacter(
+                                                inputDocumentWords, passageBoundariesInput[i], 3);
+                        ProfileCharacter passageDatabase = ProfileCharacterBuilder.GetProfileCharacter(
+                                               databaseDocumentWords, passageBoundariesDatabase[i], 3);
+                        //Step-3.1.1
+                        //Remove duplicate entries
+                        passageInput = ProfileCharacterBuilder.RemoveDuplicates(passageInput);
+                        passageDatabase = ProfileCharacterBuilder.RemoveDuplicates(passageDatabase);
+                        //============================Step-4 Post-processing=============================================
+                        //Step-4.1  (overloading method used on step-1.1 and step-2.2)
+                        //Get the intersected(common ngrams) profile of the 2 passages
+                        ProfileCharacter passageIntersection = ProfileIntersection.IntersectProfiles(passageInput, passageDatabase);
+                        //Step-4.2
+                        //Apply criterion (5) to find the similarity score between the 2 profiles
+                        float similarityScore = Criteria.SimilarityScore(passageDatabase, passageDatabase, passageIntersection);
+                        //Retrieve the exact passages
+                        for (int j = passageBoundariesInput[i].lower;
+                            j <= passageBoundariesInput[i].upper; j++)
                         {
-                            boundariesSuspicious.Add(mBoundary[0]);
-                            boundariesOriginal.Add(mBoundary[1]);
+                            inputPassage += $"{inputDocumentWords[j]} ";
                         }
-                        //Step-2.8
-                        //Convert the indexes of the stopWords to their corresponding words
-                        //in order to retrieve the passages
-                        List<IndexedBoundary> passageBoundariesSuspicious = BoundaryConverter.StopWordToWord(boundariesSuspicious,
-                            databaseDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single());
 
-                        List<IndexedBoundary> passageBoundariesOriginal = BoundaryConverter.StopWordToWord(boundariesOriginal,
-                            inputDocumentProfiles.Where(n => n.profileType == canditateOrboundary.Boundary).Single());
-                        //Examine each set of passages
-                        for (int i = 0; i < passageBoundariesOriginal.Count; i++)
+                        for (int j = passageBoundariesDatabase[i].lower; j <= passageBoundariesDatabase[i].upper; j++)
                         {
-                            //string resultMessage = "";
-                            string originalPassage = "";
-                            string suspiciousPassage = "";
-                            //=================Step-3 Creating the profiles of letter ngrams=================================
-                            //Step-3.1
-                            //Get the document's profile in letters ngrams
-                            ProfileCharacter passageSuspicious = ProfileCharacterBuilder.GetProfileCharacter(
-                                                    databaseDocumentWords, passageBoundariesSuspicious[i], 3);
-                            ProfileCharacter passageOriginal = ProfileCharacterBuilder.GetProfileCharacter(
-                                                   inputDocumentWords, passageBoundariesOriginal[i], 3);
-                            //Step-3.1.1
-                            //Remove duplicate entries
-                            passageSuspicious = ProfileCharacterBuilder.RemoveDuplicates(passageSuspicious);
-                            passageOriginal = ProfileCharacterBuilder.RemoveDuplicates(passageOriginal);
-                            //============================Step-4 Post-processing=============================================
-                            //Step-4.1  (overloading method used on step-1.1 and step-2.2)
-                            //Get the intersected(common ngrams) profile of the 2 passages
-                            ProfileCharacter passageIntersection = ProfileIntersection.IntersectProfiles(passageSuspicious, passageOriginal);
-                            //Step-4.2
-                            //Apply criterion (5) to find the similarity score between the 2 profiles
-                            float similarityScore = Criteria.SimilarityScore(passageSuspicious, passageOriginal, passageIntersection);
-                            //Retrieve the exact passages
-                            for (int j = passageBoundariesSuspicious[i].lower;
-                                j <= passageBoundariesSuspicious[i].upper; j++)
-                            {
-                                suspiciousPassage += $"{databaseDocumentWords[j]} ";
-                            }
-                            for (int j = passageBoundariesOriginal[i].lower; j <= passageBoundariesOriginal[i].upper; j++)
-                            {
-                                originalPassage += $"{inputDocumentWords[j]} ";
-                            }
-
-                            CommonPassage commonPassage = new CommonPassage
-                            {
-                                OriginalDocumentPassage = originalPassage,
-                                SuspiciousDocumentPassage = suspiciousPassage,
-                                SimilarityScore = similarityScore
-                            };
-                            comparison.CommonPassages.Add(commonPassage);
+                            databasePassage += $"{databaseDocumentWords[j]} ";
                         }
+
+                        CommonPassage commonPassage = new CommonPassage
+                        {
+                            OriginalDocumentPassage = databasePassage,
+                            SuspiciousDocumentPassage = inputPassage,
+                            SimilarityScore = similarityScore
+                        };
+                        comparison.CommonPassages.Add(commonPassage);
                     }
                 }
+
                 if (comparison.CommonPassages.Count != 0)
                 {
                     using (var context = new DocumentContext())

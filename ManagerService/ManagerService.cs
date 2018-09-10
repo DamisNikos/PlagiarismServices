@@ -39,40 +39,47 @@ namespace ManagerService
                 await tx.CommitAsync();
             }
 
-            using (var documentsToCompare = new DocumentContext())
+            try
             {
-                int skip = 0;
-                int take = 3;
-
-                targetCounter = documentsToCompare.Documents.Where(n => n.DocUser.Equals(docUser)).Count() - 1;
-
-                var batchOfDocuments = documentsToCompare.Documents
-                    .AsNoTracking()
-                    .Where(n => n.DocUser.Equals(docUser))
-                    .Where(n => !n.DocHash.Equals(docHash))
-                    .OrderByDescending(n => n.DocumentID)
-                    .Select(n => n.DocHash)
-                    .Skip(skip).Take(take)
-                    .ToList();
-
-                ActorId actorid = ActorId.CreateRandom();
-                while (batchOfDocuments.Any())
+                using (var documentsToCompare = new DocumentContext())
                 {
-                    ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: Sending {docHash} to algorithm service");
+                    int skip = 0;
+                    int take = 3;
 
-                    var actor = ActorProxy.Create<IPlagiarismAlgorithmService>(actorid, "fabric:/PlagiarismServices");
-                    var flag = actor.CompareDocumentsByHash(docHash, batchOfDocuments, targetCounter);
+                    targetCounter = documentsToCompare.Documents.Where(n => n.DocUser.Equals(docUser)).Count() - 1;
 
-                    skip += take;
-                    batchOfDocuments = documentsToCompare.Documents
-                                                         .AsNoTracking()
-                                                         .Where(n => n.DocUser.Equals(docUser))
-                                                         .Where(n => !n.DocHash.Equals(docHash))
-                                                         .OrderByDescending(n => n.DocumentID)
-                                                         .Select(n => n.DocHash)
-                                                         .Skip(skip).Take(take)
-                                                         .ToList();
+                    var batchOfDocuments = documentsToCompare.Documents
+                        .AsNoTracking()
+                        .Where(n => n.DocUser.Equals(docUser))
+                        .Where(n => !n.DocHash.Equals(docHash))
+                        .OrderByDescending(n => n.DocumentID)
+                        .Select(n => n.DocHash)
+                        .Skip(skip).Take(take)
+                        .ToList();
+
+                    ActorId actorid = ActorId.CreateRandom();
+                    while (batchOfDocuments.Any())
+                    {
+                        ServiceEventSource.Current.ServiceMessage(this.Context, $"PLS: Sending {docHash} to algorithm service");
+
+                        var actor = ActorProxy.Create<IPlagiarismAlgorithmService>(actorid, "fabric:/PlagiarismServices");
+                        var flag = actor.CompareDocumentsByHash(docHash, batchOfDocuments, targetCounter);
+
+                        skip += take;
+                        batchOfDocuments = documentsToCompare.Documents
+                                                             .AsNoTracking()
+                                                             .Where(n => n.DocUser.Equals(docUser))
+                                                             .Where(n => !n.DocHash.Equals(docHash))
+                                                             .OrderByDescending(n => n.DocumentID)
+                                                             .Select(n => n.DocHash)
+                                                             .Skip(skip).Take(take)
+                                                             .ToList();
+                    }
                 }
+            }
+            catch (System.Exception e)
+            {
+                throw;
             }
 
             return true;

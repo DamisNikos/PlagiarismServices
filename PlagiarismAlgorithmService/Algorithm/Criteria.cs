@@ -16,7 +16,7 @@ namespace PlagiarismAlgorithmService
                 int membersofC = 0;
                 int currentsq = 0;
                 //iterate through all members of the ngram
-                foreach (var word in ngram.stopWordsInString)
+                foreach (var word in ngram.stopWordsList)
                 {
                     bool found = false;
                     //iterate through all words in C
@@ -82,42 +82,30 @@ namespace PlagiarismAlgorithmService
             return profileStop;
         }
 
-        public static List<int[]> MatchedNgramSet(Profile suspiciousProfile, Profile originalProfile, Profile commonProfile)
+        public static List<int[]> MatchedNgramSet(Profile suspiciousProfile, Profile databaseProfile, Profile commonProfile)
         {
             List<int[]> setOfMatched = new List<int[]>();
+            int previousFoundIndex = 0;
             for (int i = 0; i < commonProfile.ngrams.Count; i++)
             {
                 int locationSuspicious = 0;
-                for (int j = 0; j < suspiciousProfile.ngrams.Count; j++)
+                for (int j = previousFoundIndex; j < suspiciousProfile.ngrams.Count; j++)
                 {
-                    int matches = 0;
-                    for (int k = 0; k < suspiciousProfile.ngrams[j].stopWordsList.Count; k++)
-                    {
-                        if (suspiciousProfile.ngrams[j].stopWordsList[k].Equals(commonProfile.ngrams[i].stopWordsList[k]))
-                        {
-                            matches++;
-                        }
-                    }
-                    if (matches == suspiciousProfile.ngrams[j].stopWordsList.Count)
+                    if (ProfileIntersection.CheckNgramEquality(commonProfile.ngrams[i], suspiciousProfile.ngrams[j]))
                     {
                         locationSuspicious = j;
+                        previousFoundIndex = j;
+                        break;
                     }
                 }
 
                 int locationOriginal = 0;
-                for (int j = 0; j < originalProfile.ngrams.Count; j++)
+                for (int j = 0; j < databaseProfile.ngrams.Count; j++)
                 {
-                    int matches = 0;
-                    for (int k = 0; k < originalProfile.ngrams[j].stopWordsList.Count; k++)
-                    {
-                        if (originalProfile.ngrams[j].stopWordsList[k].Equals(commonProfile.ngrams[i].stopWordsList[k]))
-                        {
-                            matches++;
-                        }
-                    }
-                    if (matches == originalProfile.ngrams[j].stopWordsList.Count)
+                    if (ProfileIntersection.CheckNgramEquality(commonProfile.ngrams[i], databaseProfile.ngrams[j]))
                     {
                         locationOriginal = j;
+                        break;
                     }
                 }
                 setOfMatched.Add(new int[] { locationSuspicious, locationOriginal });

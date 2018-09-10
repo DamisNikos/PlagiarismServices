@@ -10,39 +10,21 @@ namespace PlagiarismAlgorithmService
         {
             List<StopNGram> intersection = new List<StopNGram>();
 
-            int ngramLength = profile1.ngrams[0].stopWordsList.Count;
-
             for (int i = 0; i < profile1.ngrams.Count; i++)
             {
-                int countEquals = 0;
-
                 for (int j = 0; j < profile2.ngrams.Count; j++)
                 {
-                    int countEqualWords = 0;
-
-                    for (int k = 0; k < ngramLength; k++)
+                    if (CheckNgramEquality(profile1.ngrams[i], profile2.ngrams[j]))
                     {
-                        if (profile1.ngrams[i].stopWordsList[k].Equals(profile2.ngrams[j].stopWordsList[k]))
+                        intersection.Add(new StopNGram()
                         {
-                            countEqualWords++;
-                        }
+                            stopWordsList = profile1.ngrams[i].stopWordsInString.Split(',').ToList(),
+                            stopWordsInString = profile1.ngrams[i].stopWordsInString,
+                            lower = -1,
+                            upper = -1
+                        });
+                        break;
                     }
-
-                    if (countEqualWords == ngramLength)
-                    {
-                        countEquals++;
-                    }
-                }
-
-                if (countEquals > 0)
-                {
-                    intersection.Add(new StopNGram()
-                    {
-                        stopWordsList = profile1.ngrams[i].stopWordsInString.Split(',').ToList(),
-                        stopWordsInString = profile1.ngrams[i].stopWordsInString,
-                        lower = -1,
-                        upper = -1
-                    });
                 }
             }
 
@@ -77,6 +59,15 @@ namespace PlagiarismAlgorithmService
             }
             ProfileCharacter profile = new ProfileCharacter() { ngrams = ngramsCollection };
             return profile;
+        }
+
+        public static bool CheckNgramEquality(StopNGram ngram1, StopNGram ngram2)
+        {
+            for (int i = 0; i < ngram1.stopWordsList.Count; i++)
+            {
+                if (!(ngram1.stopWordsList[i].Equals(ngram2.stopWordsList[i]))) return false;
+            }
+            return true;
         }
     }
 }

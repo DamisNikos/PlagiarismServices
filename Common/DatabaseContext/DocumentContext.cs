@@ -13,7 +13,7 @@ namespace Common.DataModels
         public DbSet<CommonPassage> CommonPassages { get; set; }
 
         public DocumentContext()
-        : base("Server=62.1.231.194;Initial Catalog=Documents;Persist Security Info=False;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=3000;")
+        : base("Server=188.4.206.176;Initial Catalog=Documents;Persist Security Info=False;User ID=sa;Password=Ceid@5202;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=3000;")
         {
             System.Data.Entity.Database.SetInitializer(new CreateDatabaseIfNotExists<DocumentContext>());
             var objectContext = (this as IObjectContextAdapter).ObjectContext;
