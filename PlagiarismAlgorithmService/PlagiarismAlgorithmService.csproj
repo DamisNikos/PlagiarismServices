@@ -234,7 +234,9 @@
     <Compile Include="Algorithm\BoundaryConverter.cs" />
     <Compile Include="Algorithm\BoundaryDetection.cs" />
     <Compile Include="Algorithm\Criteria.cs" />
+    <Compile Include="Algorithm\DataRetriever.cs" />
     <Compile Include="Algorithm\IndexedBoundary.cs" />
+    <Compile Include="Algorithm\ProcessDocument.cs" />
     <Compile Include="Algorithm\ProfileCharacter.cs" />
     <Compile Include="Algorithm\ProfileIntersection.cs" />
     <Compile Include="Algorithm\ProfileCharacterBuilder.cs" />

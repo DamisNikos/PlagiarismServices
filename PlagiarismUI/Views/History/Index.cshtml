@@ -1,12 +1,9 @@
 ﻿@model PaginatedList<Common.ResultsModel.Comparison>
-
 @{
     ViewBag.Title = "History";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Documents Stored In System</h2>
-
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
@@ -16,24 +13,29 @@
         </p>
     </div>
 </form>
-
 <table class="table">
-
     @foreach (var comparison in Model)
     {
         <tr>
             <td>
                 @Html.ActionLink(comparison.OriginalDocumentName, "ComparedDocuments", new { originalName = comparison.OriginalDocumentName })
             </td>
+            <td>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-page="@(Model.PageIndex - 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-default">
+                    ad
+                </a>
+            </td>
         </tr>
     }
 </table>
-
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
-
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-page="@(Model.PageIndex - 1)"

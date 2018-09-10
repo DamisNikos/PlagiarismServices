@@ -82,33 +82,34 @@ namespace PlagiarismAlgorithmService
             return profileStop;
         }
 
-        public static List<int[]> MatchedNgramSet(Profile suspiciousProfile, Profile databaseProfile, Profile commonProfile)
+        public static List<int[]> MatchedNgramSet(Profile inputProfile, Profile databaseProfile, Profile commonProfile)
         {
             List<int[]> setOfMatched = new List<int[]>();
+
             int previousFoundIndex = 0;
             for (int i = 0; i < commonProfile.ngrams.Count; i++)
             {
-                int locationSuspicious = 0;
-                for (int j = previousFoundIndex; j < suspiciousProfile.ngrams.Count; j++)
+                int locationInput = 0;
+                for (int j = previousFoundIndex; j < inputProfile.ngrams.Count; j++)
                 {
-                    if (ProfileIntersection.CheckNgramEquality(commonProfile.ngrams[i], suspiciousProfile.ngrams[j]))
+                    if (ProfileIntersection.CheckNgramEquality(commonProfile.ngrams[i], inputProfile.ngrams[j]))
                     {
-                        locationSuspicious = j;
+                        locationInput = j;
                         previousFoundIndex = j;
                         break;
                     }
                 }
 
-                int locationOriginal = 0;
+                int locationDatabase = 0;
                 for (int j = 0; j < databaseProfile.ngrams.Count; j++)
                 {
                     if (ProfileIntersection.CheckNgramEquality(commonProfile.ngrams[i], databaseProfile.ngrams[j]))
                     {
-                        locationOriginal = j;
+                        locationDatabase = j;
                         break;
                     }
                 }
-                setOfMatched.Add(new int[] { locationSuspicious, locationOriginal });
+                setOfMatched.Add(new int[] { locationInput, locationDatabase });
             }
 
             return setOfMatched;
