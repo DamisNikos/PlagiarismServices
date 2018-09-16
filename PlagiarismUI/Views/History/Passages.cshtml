@@ -3,27 +3,27 @@
     ViewBag.Title = "History";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Common passages between @Model.OriginalDocumentName and @Model.SuspiciousDocumentName</h2>
+<h2>Common passages between @Model.SuspiciousDocumentName and @Model.OriginalDocumentName</h2>
 <a asp-action="ComparedDocuments"
-   asp-route-originalName="@Model.OriginalDocumentName">
-    Back to compared documents for @Model.OriginalDocumentName
+   asp-route-suspiciousName="@Model.SuspiciousDocumentName">
+    Back to compared documents for @Model.SuspiciousDocumentName
 </a>|<a asp-action="Index">
     Back to History
 </a>
 <table class="table">
     <tr>
-        <th>@Model.SuspiciousDocumentName</th>
         <th>@Model.OriginalDocumentName</th>
+        <th>@Model.SuspiciousDocumentName</th>
         <th>Similarity Score</th>
     </tr>
     @foreach (var passage in Model.CommonPassages)
     {
         <tr>
             <td width="48%">
-                @passage.SuspiciousDocumentPassage
+                @passage.OriginalDocumentPassage
             </td>
             <td width="48%">
-                @passage.OriginalDocumentPassage
+                @passage.SuspiciousDocumentPassage
             </td>
             <td width="4%">
                 @passage.SimilarityScore

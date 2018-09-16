@@ -18,16 +18,21 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(comparison.OriginalDocumentName, "ComparedDocuments", new { originalName = comparison.OriginalDocumentName })
+                @Html.ActionLink(comparison.SuspiciousDocumentName, "ComparedDocuments", new { suspiciousName = comparison.SuspiciousDocumentName })
             </td>
             <td>
-                <a asp-action="Index"
-                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                   asp-route-page="@(Model.PageIndex - 1)"
-                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                   class="btn btn-default">
-                    ad
-                </a>
+                <div class="btn-toolbar pull-right" role="group">
+                    <a asp-action="Delete"
+                       asp-route-name="@comparison.SuspiciousDocumentName"
+                       class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                    <a asp-action="Rescan"
+                       asp-route-name="@comparison.SuspiciousDocumentName"
+                       class="btn btn-success">
+                        <i class="fas fa-redo"></i>
+                    </a>
+                </div>
             </td>
         </tr>
     }

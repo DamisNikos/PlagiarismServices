@@ -1,31 +1,25 @@
 ﻿@model PaginatedList<Common.ResultsModel.Comparison>
-
 @{
     ViewBag.Title = "History";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Documents compared with @Model.FirstOrDefault().OriginalDocumentName</h2>
-
+<h2>Documents compared with @Model.FirstOrDefault().SuspiciousDocumentName</h2>
 <form asp-action="ComparedDocuments" method="get">
     <div class="form-actions no-color">
         <p>
             Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="hidden" name="originalName" value="@ViewData["CurrentNameFilter"] " />
+            <input type="hidden" name="suspiciousName" value="@ViewData["CurrentNameFilter"] " />
             <input type="submit" value="Search" class="btn btn-default" /> |
             <a asp-action="ComparedDocuments"
-               asp-route-originalName="@ViewData["CurrentNameFilter"]">
-
+               asp-route-suspiciousName="@ViewData["CurrentNameFilter"]">
                 Back to Full List
             </a>|
             <a asp-action="Index">
-
                 Back to History
             </a>
         </p>
     </div>
 </form>
-
 <table class="table">
     <tr>
         <th>Document Name</th>
@@ -36,7 +30,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(comparison.SuspiciousDocumentName, "Passages", new { comparisonID = comparison.comparisonID })
+                @Html.ActionLink(comparison.OriginalDocumentName, "Passages", new { comparisonID = comparison.comparisonID })
             </td>
             <td>
                 @comparison.CommonPassages.Count
@@ -54,14 +48,12 @@
             </td>
         </tr>
 
-                    }
+    }
 </table>
-
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
-
 <a asp-action="ComparedDocuments"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-page="@(Model.PageIndex - 1)"
