@@ -12,7 +12,7 @@ namespace Common.DataModels
         [Required]
         public List<StopNGram> ngrams { get; set; }
 
-        public int documentID { get; set; }
+        pu int documentID { get; set; }
 
         [IgnoreDataMember]
         public Document document { get; set; }

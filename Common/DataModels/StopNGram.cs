@@ -13,7 +13,7 @@ namespace Common.DataModels
         public string stopWordsInString { get; set; }
 
         [NotMapped]
-        public List<StopWord> stopWords { get; set; }
+        pubc List<StopWord> stopWords { get; set; }
 
         [Required]
         public int lower { get; set; }
