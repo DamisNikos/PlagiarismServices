@@ -7,8 +7,7 @@ namespace Common.DataModels
         Canditate,
         Boundary
     }
-
-    public static class Globals
+asdfsd fas
     {
         public static List<Word> top50words = new List<Word>() {
               new Word() { word = "the" },
