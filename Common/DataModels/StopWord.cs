@@ -13,4 +13,6 @@ namespace Common.DataModels
         [IgnoreDataMember]
         public StopNGram stopNGram { get; set; }
     }
+	
+	//some random comment
 }

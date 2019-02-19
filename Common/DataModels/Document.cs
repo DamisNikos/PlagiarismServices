@@ -29,4 +29,10 @@ namespace Common.DataModels
             words = new List<Word>();
         }
     }
+	
+	//ALLAGI MPIL 1
+	public class pOUTSE()
+	{
+		return 15;
+    {
 }

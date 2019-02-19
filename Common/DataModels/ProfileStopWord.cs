@@ -6,7 +6,7 @@ namespace Common.DataModels
 {
     public class ProfileStopWord
     {
-        public int ProfileStopWordID { get; set; }
+        //public int ProfileStopWordID { get; set; }
         public canditateOrboundary profileType { get; set; }
 
         [Required]

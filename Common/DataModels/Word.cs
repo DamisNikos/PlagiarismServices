@@ -13,5 +13,9 @@ namespace Common.DataModels
 
         [IgnoreDataMember]
         public Document document { get; set; }
+		
+		//allagi mpil 3
+		[IgnoreDataMember]
+        public Document documentMPIL { get; set; }
     }
 }
